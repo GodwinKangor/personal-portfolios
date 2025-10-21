@@ -49,11 +49,29 @@ export const NavBar = () => {
               <Nav.Link href="#projects" className={activeLink === 'projects' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('projects')}>Projects</Nav.Link>
             </Nav>
             <span className="navbar-text">
-              <div className="social-icon">
-                <a href="#"><img src={navIcon1} alt="" /></a>
-                <a href="#"><img src={navIcon2} alt="" /></a>
-                <a href="#"><img src={navIcon3} alt="" /></a>
-              </div>
+            <div className="social-icon">
+              <a
+                href="https://www.linkedin.com/in/godwinkangor" // ← replace with your real LinkedIn
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={navIcon1} alt="LinkedIn" />
+              </a>
+              <a
+                href="https://www.facebook.com/yourprofile" // ← replace with your Facebook
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={navIcon2} alt="Facebook" />
+              </a>
+              <a
+                href="https://www.instagram.com/yourusername" // ← replace with your Instagram
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={navIcon3} alt="Instagram" />
+              </a>
+            </div>
               <HashLink to='#connect'>
                 <button className="vvd"><span>Let’s Connect</span></button>
               </HashLink>
