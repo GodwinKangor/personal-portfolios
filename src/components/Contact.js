@@ -1,95 +1,151 @@
 import { useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import contactImg from "../assets/img/contact-img.svg";
-import 'animate.css';
-import TrackVisibility from 'react-on-screen';
+import { social } from "../data/profile";
+
+const initialDetails = { name: "", email: "", message: "" };
 
 export const Contact = () => {
-  const formInitialDetails = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    message: ''
-  }
-  const [formDetails, setFormDetails] = useState(formInitialDetails);
-  const [buttonText, setButtonText] = useState('Send');
-  const [status, setStatus] = useState({});
+  const formspreeId = process.env.REACT_APP_FORMSPREE_ID;
+  const isConfigured = Boolean(formspreeId);
 
-  const onFormUpdate = (category, value) => {
-      setFormDetails({
-        ...formDetails,
-        [category]: value
-      })
-  }
+  const [details, setDetails] = useState(initialDetails);
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState("idle"); // idle | sending | success | error
+
+  const onChange = (field) => (e) =>
+    setDetails((prev) => ({ ...prev, [field]: e.target.value }));
+
+  const validate = () => {
+    const next = {};
+    if (!details.name.trim()) next.name = "Please enter your name.";
+    if (!/^\S+@\S+\.\S+$/.test(details.email)) next.email = "Please enter a valid email address.";
+    if (!details.message.trim()) next.message = "Please enter a message.";
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setButtonText("Sending...");
-    let response = await fetch("http://localhost:5000/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(formDetails),
-    });
-    setButtonText("Send");
-    let result = await response.json();
-    setFormDetails(formInitialDetails);
-    if (result.code == 200) {
-      setStatus({ succes: true, message: 'Message sent successfully'});
-    } else {
-      setStatus({ succes: false, message: 'Something went wrong, please try again later.'});
+    if (status === "sending" || !isConfigured) return;
+    if (!validate()) return;
+
+    setStatus("sending");
+    try {
+      const response = await fetch(`https://formspree.io/f/${formspreeId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(details),
+      });
+      if (response.ok) {
+        setDetails(initialDetails);
+        setStatus("success");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
     }
   };
 
   return (
     <section className="contact" id="connect">
-      <Container>
-        <Row className="align-items-center">
-          <Col size={12} md={6}>
-            <TrackVisibility>
-              {({ isVisible }) =>
-                <img className={isVisible ? "animate__animated animate__zoomIn" : ""} src={contactImg} alt="Contact Us"/>
-              }
-            </TrackVisibility>
-          </Col>
-          <Col size={12} md={6}>
-            <TrackVisibility>
-              {({ isVisible }) =>
-                <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-                <h2>Get In Touch</h2>
-                <form onSubmit={handleSubmit}>
-                  <Row>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="text" value={formDetails.firstName} placeholder="First Name" onChange={(e) => onFormUpdate('firstName', e.target.value)} />
-                    </Col>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="text" value={formDetails.lasttName} placeholder="Last Name" onChange={(e) => onFormUpdate('lastName', e.target.value)}/>
-                    </Col>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="email" value={formDetails.email} placeholder="Email Address" onChange={(e) => onFormUpdate('email', e.target.value)} />
-                    </Col>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="tel" value={formDetails.phone} placeholder="Phone No." onChange={(e) => onFormUpdate('phone', e.target.value)}/>
-                    </Col>
-                    <Col size={12} className="px-1">
-                      <textarea rows="6" value={formDetails.message} placeholder="Message" onChange={(e) => onFormUpdate('message', e.target.value)}></textarea>
-                      <button type="submit"><span>{buttonText}</span></button>
-                    </Col>
-                    {
-                      status.message &&
-                      <Col>
-                        <p className={status.success === false ? "danger" : "success"}>{status.message}</p>
-                      </Col>
-                    }
-                  </Row>
-                </form>
-              </div>}
-            </TrackVisibility>
-          </Col>
-        </Row>
-      </Container>
+      <div className="section-shell contact__grid">
+        <div>
+          <p className="section-label">Contact</p>
+          <h2>Get in touch</h2>
+          <p className="contact__intro">
+            Reach out about a project, opportunity, or anything else — or find me directly:
+          </p>
+          <div className="contact__social">
+            <a href={social.github} target="_blank" rel="noopener noreferrer">
+              GitHub
+            </a>
+            <a href={social.linkedin} target="_blank" rel="noopener noreferrer">
+              LinkedIn
+            </a>
+          </div>
+        </div>
+
+        <div>
+          {!isConfigured ? (
+            <p className="contact__fallback">
+              The contact form isn't configured yet. In the meantime, reach out on{" "}
+              <a href={social.linkedin} target="_blank" rel="noopener noreferrer">
+                LinkedIn
+              </a>{" "}
+              or{" "}
+              <a href={social.github} target="_blank" rel="noopener noreferrer">
+                GitHub
+              </a>
+              .
+            </p>
+          ) : (
+            <form onSubmit={handleSubmit} noValidate>
+              <div className="field">
+                <label htmlFor="contact-name">Name</label>
+                <input
+                  id="contact-name"
+                  type="text"
+                  value={details.name}
+                  onChange={onChange("name")}
+                  aria-invalid={Boolean(errors.name)}
+                  aria-describedby={errors.name ? "contact-name-error" : undefined}
+                  required
+                />
+                {errors.name && (
+                  <p className="field__error" id="contact-name-error">
+                    {errors.name}
+                  </p>
+                )}
+              </div>
+
+              <div className="field">
+                <label htmlFor="contact-email">Email</label>
+                <input
+                  id="contact-email"
+                  type="email"
+                  value={details.email}
+                  onChange={onChange("email")}
+                  aria-invalid={Boolean(errors.email)}
+                  aria-describedby={errors.email ? "contact-email-error" : undefined}
+                  required
+                />
+                {errors.email && (
+                  <p className="field__error" id="contact-email-error">
+                    {errors.email}
+                  </p>
+                )}
+              </div>
+
+              <div className="field">
+                <label htmlFor="contact-message">Message</label>
+                <textarea
+                  id="contact-message"
+                  rows="5"
+                  value={details.message}
+                  onChange={onChange("message")}
+                  aria-invalid={Boolean(errors.message)}
+                  aria-describedby={errors.message ? "contact-message-error" : undefined}
+                  required
+                />
+                {errors.message && (
+                  <p className="field__error" id="contact-message-error">
+                    {errors.message}
+                  </p>
+                )}
+              </div>
+
+              <button type="submit" className="button button--primary" disabled={status === "sending"}>
+                {status === "sending" ? "Sending…" : "Send message"}
+              </button>
+
+              <p className="contact__status" role="status" aria-live="polite">
+                {status === "success" && "Message sent — thank you for reaching out."}
+                {status === "error" && "Something went wrong. Please try again or reach out on LinkedIn/GitHub."}
+              </p>
+            </form>
+          )}
+        </div>
+      </div>
     </section>
-  )
-}
+  );
+};

@@ -1,14 +1,15 @@
-# Personal Portfolio Website in React
+# Godwin Kangor — Personal Portfolio
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-<img width="1266" alt="Screen Shot 2022-06-19 at 2 18 18 PM" src="https://user-images.githubusercontent.com/50160672/174933373-1ba6cadf-1c9a-48c3-aa58-984d0bd62d82.png">
+A personal notebook/showcase site covering software engineering, ML/data, and 3D/design work, with a light/dark theme, a filterable project index, and a small interactive interest map. Built with plain React + CSS (no UI framework) — see `src/data/` for the editable profile, project, and capability content, and `src/App.css` for the design tokens and layout.
 
-Built using:
+## Environment variables
 
-- Front-end library: React
-- CSS framework: React-bootstrap
-- CSS animations library: Animate.css
+Copy `.env.example` to `.env` and fill in what you need. Both integrations degrade gracefully when unset:
+
+- `REACT_APP_FORMSPREE_ID` — enables the contact form (Formspree). Without it, the Contact section shows GitHub/LinkedIn links instead of a form that would submit nowhere.
+- `REACT_APP_MAILCHIMP_URL` / `REACT_APP_MAILCHIMP_U` / `REACT_APP_MAILCHIMP_ID` — enables the footer newsletter signup. The signup is hidden unless all three are set.
 
 In the /personal-portfolio, you can run:
 

@@ -1,84 +1,62 @@
-import { useState, useEffect } from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
-import logo from '../assets/img/logo.svg';
-import navIcon1 from '../assets/img/nav-icon1.svg';
-import navIcon2 from '../assets/img/nav-icon2.svg';
-import navIcon3 from '../assets/img/nav-icon3.svg';
-import { HashLink } from 'react-router-hash-link';
-import {
-  BrowserRouter as Router
-} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { nav, social } from "../data/profile";
+import { useTheme } from "../theme/ThemeContext";
+import { GitHubIcon, LinkedInIcon, SunIcon, MoonIcon } from "../icons";
 
 export const NavBar = () => {
-
-  const [activeLink, setActiveLink] = useState('home');
+  const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    }
-
-    window.addEventListener("scroll", onScroll);
-
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [])
-
-  const onUpdateActiveLink = (value) => {
-    setActiveLink(value);
-  }
+  }, []);
 
   return (
-    <Router>
-      <Navbar expand="md" className={scrolled ? "scrolled" : ""}>
-        <Container>
-          <Navbar.Brand href="/">
-            <img src={logo} alt="Logo" />
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav">
-            <span className="navbar-toggler-icon"></span>
-          </Navbar.Toggle>
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
-              <Nav.Link href="#home" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>Home</Nav.Link>
-              <Nav.Link href="#skills" className={activeLink === 'skills' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('skills')}>Skills</Nav.Link>
-              <Nav.Link href="#projects" className={activeLink === 'projects' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('projects')}>Projects</Nav.Link>
-            </Nav>
-            <span className="navbar-text">
-            <div className="social-icon">
-              <a
-                href="https://www.linkedin.com/in/godwinkangor" // ← replace with your real LinkedIn
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={navIcon1} alt="LinkedIn" />
-              </a>
-              <a
-                href="https://www.facebook.com/yourprofile" // ← replace with your Facebook
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={navIcon2} alt="Facebook" />
-              </a>
-              <a
-                href="https://www.instagram.com/yourusername" // ← replace with your Instagram
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={navIcon3} alt="Instagram" />
-              </a>
-            </div>
-              <HashLink to='#connect'>
-                <button className="vvd"><span>Let’s Connect</span></button>
-              </HashLink>
-            </span>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </Router>
-  )
-}
+    <header className={`site-nav${scrolled ? " is-scrolled" : ""}`}>
+      <div className="site-nav__inner">
+        <a href="#top" className="site-nav__brand">
+          GK
+        </a>
+
+        <button
+          type="button"
+          className="site-nav__menu-toggle"
+          aria-expanded={menuOpen}
+          aria-controls="site-nav-links"
+          onClick={() => setMenuOpen((v) => !v)}
+        >
+          <span className="sr-only">Toggle navigation</span>
+          <span aria-hidden="true">{menuOpen ? "✕" : "☰"}</span>
+        </button>
+
+        <nav id="site-nav-links" className={`site-nav__links${menuOpen ? " is-open" : ""}`} aria-label="Primary">
+          {nav.map((item) => (
+            <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
+              {item.label}
+            </a>
+          ))}
+          <div className="site-nav__social">
+            <a href={social.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <GitHubIcon />
+            </a>
+            <a href={social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <LinkedInIcon />
+            </a>
+          </div>
+        </nav>
+
+        <button
+          type="button"
+          className="theme-toggle"
+          onClick={toggleTheme}
+          aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+        >
+          {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+        </button>
+      </div>
+    </header>
+  );
+};
