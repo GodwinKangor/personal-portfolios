@@ -20,12 +20,12 @@
 
 /************ Design tokens ************/
 :root {
-  --bg: #f6f4f8;
+  --bg: #f6f5f1;
   --bg-elevated: #ffffff;
-  --text: #241c2c;
-  --text-muted: #685a73;
-  --border: #e2dce8;
-  --accent: #7b42d6;
+  --text: #20201d;
+  --text-muted: #5b5a54;
+  --border: #dedcd3;
+  --accent: #c44722;
   --accent-contrast: #ffffff;
   --focus-ring: #1d4ed8;
 
@@ -39,13 +39,13 @@
 }
 
 [data-theme="dark"] {
-  --bg: #17121c;
-  --bg-elevated: #211a28;
-  --text: #f0eaf5;
-  --text-muted: #a696b3;
-  --border: #332a3d;
-  --accent: #a581ee;
-  --accent-contrast: #17121c;
+  --bg: #141413;
+  --bg-elevated: #1c1b19;
+  --text: #f2f0ea;
+  --text-muted: #a6a399;
+  --border: #33322d;
+  --accent: #e2703a;
+  --accent-contrast: #141413;
   --focus-ring: #7ea6ff;
 }
 
