@@ -150,6 +150,14 @@ export const projects = [
     repoUrl: `${GH}/Compressing-Program`,
   },
   {
+    id: "minic-compiler",
+    title: "MiniC Compiler",
+    description: "C compiler: parsing, LLVM IR generation, optimization, x86 codegen.",
+    tech: ["C", "Yacc/Lex", "LLVM"],
+    category: "coursework",
+    repoUrl: `${GH}/MiniC`,
+  },
+  {
     id: "abstract-project",
     title: "Abstract Project",
     description: "Procedural low-poly abstract form study.",
