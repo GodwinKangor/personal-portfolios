@@ -22,5 +22,6 @@ export const social = {
 export const nav = [
   { label: "About", href: "#about" },
   { label: "Work", href: "#work" },
+  { label: "Universe", href: "#/universe" },
   { label: "Contact", href: "#connect" },
 ];
