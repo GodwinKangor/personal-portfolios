@@ -46,7 +46,7 @@ test("solar system shows nine planets and an asteroid belt", () => {
   const map = screen.getByRole("group", { name: /solar system of interests/i });
   expect(within(map).getAllByRole("button", { name: /moons$/i })).toHaveLength(9);
   expect(within(map).getByRole("button", { name: /asteroid belt/i })).toBeInTheDocument();
-  expect(container.querySelectorAll(".cosmos__rock.is-named")).toHaveLength(7);
+  expect(container.querySelectorAll(".cosmos__rock.is-named")).toHaveLength(8);
 
   userEvent.click(screen.getByRole("button", { name: /pause orbits/i }));
   expect(container.querySelector(".cosmos")).toHaveClass("is-paused");

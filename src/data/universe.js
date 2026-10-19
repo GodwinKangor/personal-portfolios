@@ -24,11 +24,11 @@ export const planets = [
     color: "#8aabff",
     look: "bands",
     category: "software",
-    projects: ["hireflow", "exitify", "movers-transport", "kadi"],
+    projects: ["hireflow", "exitify", "launchpad", "calendai", "webcam-based-painting", "movers-transport", "kadi", "expense-tracker"],
     moons: {
-      language: ["JavaScript", "TypeScript"],
-      tool: ["React", "Next.js", "FastAPI", "Flask", "Prisma", "Postgres", "MySQL"],
-      concept: ["REST APIs"],
+      language: ["JavaScript", "TypeScript", "Java"],
+      tool: ["React", "Next.js", "Spring Boot", "FastAPI", "Flask", "Prisma", "Postgres", "MySQL", "Tailwind CSS"],
+      concept: ["REST APIs", "Background jobs"],
     },
   },
   {
@@ -157,6 +157,7 @@ export const asteroids = [
   "Git / GitHub",
   "VS Code",
   "Firebase",
+  "Docker",
   "Google APIs",
   "SQL",
   "JUnit",

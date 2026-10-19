@@ -6,6 +6,7 @@
 import abstractProjectCover from "../assets/img/projects/abstract-project.jpg";
 import bipedProjectCover from "../assets/img/projects/biped-project.jpg";
 import roomProjectCover from "../assets/img/projects/room-project.jpg";
+import energyTwinCover from "../assets/img/projects/dartmouth-energy-twin.jpg";
 
 const GH = "https://github.com/GodwinKangor";
 
@@ -45,10 +46,12 @@ export const projects = [
   {
     id: "dartmouth-energy-twin",
     title: "Dartmouth Energy Twin",
-    description: "3D campus digital twin.",
+    description: "Interactive 3D digital twin for exploring Dartmouth's campus and energy future.",
     tech: ["Next.js", "CesiumJS"],
     category: "software",
     repoUrl: `${GH}/MapWRLD`,
+    demoUrl: "https://dartmouth-energy-twin.vercel.app",
+    image: energyTwinCover,
   },
   {
     id: "movers-transport",
@@ -65,6 +68,41 @@ export const projects = [
     tech: ["React", "Socket.IO"],
     category: "software",
     repoUrl: `${GH}/Kadi`,
+    demoUrl: "https://kadi-nine.vercel.app",
+  },
+  {
+    id: "launchpad",
+    title: "LaunchPad",
+    description: "Deploy applications from GitHub to your own server.",
+    tech: ["Next.js", "TypeScript", "Prisma", "BullMQ", "Docker"],
+    category: "software",
+    repoUrl: `${GH}/LaunchPad`,
+  },
+  {
+    id: "calendai",
+    title: "CalendAI",
+    description: "Student calendar that pulls assignments from syllabi and Canvas, with natural-language event scheduling.",
+    tech: ["React", "Vite", "Tailwind CSS", "OpenRouter API"],
+    category: "software",
+    repoUrl: `${GH}/project-calendai-main`,
+    demoUrl: "https://project-calendai.onrender.com/",
+  },
+  {
+    id: "webcam-based-painting",
+    title: "Webcam-Based Painting",
+    description: "Recolor or paint image regions by color similarity, using a RegionFinder image-processing service.",
+    tech: ["Java", "Spring Boot", "React", "Vite"],
+    category: "software",
+    repoUrl: `${GH}/webcam-based-painting`,
+    demoUrl: "https://webcam-based-painting-0hdv.onrender.com/",
+  },
+  {
+    id: "expense-tracker",
+    title: "Expense Tracker",
+    description: "Expense tracking web app.",
+    tech: ["JavaScript", "HTML", "CSS"],
+    category: "software",
+    repoUrl: `${GH}/expense-tracker-app`,
   },
   {
     id: "dj-effect-detection",
@@ -188,5 +226,6 @@ export const projects = [
     description: "",
     tech: ["UI/UX Design", "Google Maps API"],
     category: "design",
+    repoUrl: `${GH}/Ice_Cream_Finder`,
   },
 ];
